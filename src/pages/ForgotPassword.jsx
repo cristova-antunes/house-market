@@ -1,28 +1,28 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
-import { toast } from "react-toastify";
-import { ReactComponent as ArrowRighIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import { getAuth, sendPasswordResetEmail } from "firebase/auth"
+import { toast } from "react-toastify"
+import { ReactComponent as ArrowRighIcon } from "../assets/svg/keyboardArrowRightIcon.svg"
 
 export default function ForgotPassword() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("")
 
   const onChange = (e) => {
-    setEmail(e.target.value);
-  };
+    setEmail(e.target.value)
+  }
 
   const onSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      const auth = getAuth();
-      await sendPasswordResetEmail(auth, email);
-      toast.success("Email was sent");
+      const auth = getAuth()
+      await sendPasswordResetEmail(auth, email)
+      toast.success("Email was sent")
     } catch (error) {
-      console.error(error);
-      toast.error("Could not send reset email");
+      console.error(error)
+      toast.error("Could not send reset email")
     }
-  };
+  }
 
   return (
     <div className="pageContainer">
@@ -41,7 +41,7 @@ export default function ForgotPassword() {
             onChange={onChange}
           />
 
-          <Link className="forgotPasswordLink" to="sign-in">
+          <Link className="forgotPasswordLink" to="/sign-in">
             Sign in
           </Link>
 
@@ -54,5 +54,5 @@ export default function ForgotPassword() {
         </form>
       </main>
     </div>
-  );
+  )
 }

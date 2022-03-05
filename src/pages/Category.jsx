@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
 import {
   collection,
   getDocs,
@@ -8,23 +8,23 @@ import {
   orderBy,
   limit,
   startAfter,
-} from "firebase/firestore";
-import { db } from "../firebase.config";
+} from "firebase/firestore"
+import { db } from "../firebase.config"
 
-import { toast } from "react-toastify";
-import Spinner from "../components/Spinner";
-import ListingItem from "../components/ListingItem";
+import { toast } from "react-toastify"
+import Spinner from "../components/Spinner"
+import ListingItem from "../components/ListingItem"
 
 export default function Category() {
-  const [listings, setListings] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [listings, setListings] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  const params = useParams();
+  const params = useParams()
   useEffect(() => {
     const fetchListings = async () => {
       try {
         //Fetch reference
-        const listingRef = collection(db, "listings");
+        const listingRef = collection(db, "listings")
 
         //Create query
         const q = query(
@@ -32,30 +32,30 @@ export default function Category() {
           where("type", "==", params.categoryName),
           orderBy("timestamp", "desc"),
           limit(10)
-        );
+        )
 
         //Execute query
-        const querySnap = await getDocs(q);
+        const querySnap = await getDocs(q)
 
-        let listings = [];
+        let listings = []
 
         querySnap.forEach((doc) => {
           return listings.push({
             id: doc.id,
             data: doc.data(),
-          });
-        });
+          })
+        })
 
-        setListings(listings);
-        setLoading(false);
+        setListings(listings)
+        setLoading(false)
       } catch (error) {
-        console.error(error);
-        toast.error("Could not fetch listings");
+        console.error(error)
+        toast.error("Could not fetch listings")
       }
-    };
+    }
 
-    fetchListings();
-  }, []);
+    fetchListings()
+  }, [])
 
   return (
     <div className="category">
@@ -85,5 +85,5 @@ export default function Category() {
         <p>No listings for {params.categoryName}</p>
       )}
     </div>
-  );
+  )
 }

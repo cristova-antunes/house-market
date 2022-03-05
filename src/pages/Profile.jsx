@@ -1,28 +1,28 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getAuth, updateProfile } from "firebase/auth";
-import { db } from "../firebase.config";
-import { doc, updateDoc } from "firebase/firestore";
-import { toast } from "react-toastify";
-import arrowRight from "../assets/svg/keyboardArrowRightIcon.svg";
-import homeIcon from "../assets/svg/homeIcon.svg";
+import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { getAuth, updateProfile } from "firebase/auth"
+import { db } from "../firebase.config"
+import { doc, updateDoc } from "firebase/firestore"
+import { toast } from "react-toastify"
+import arrowRight from "../assets/svg/keyboardArrowRightIcon.svg"
+import homeIcon from "../assets/svg/homeIcon.svg"
 
 export default function Profile() {
-  const auth = getAuth();
-  const [changeDetails, setChangeDetails] = useState(false);
+  const auth = getAuth()
+  const [changeDetails, setChangeDetails] = useState(false)
   const [formData, setFormData] = useState({
     name: auth.currentUser.displayName,
     email: auth.currentUser.email,
-  });
+  })
 
-  const { name, email } = formData;
+  const { name, email } = formData
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const onLogOut = () => {
-    auth.signOut();
-    navigate("/");
-  };
+    auth.signOut()
+    navigate("/")
+  }
 
   const handleSubmit = async () => {
     try {
@@ -30,32 +30,32 @@ export default function Profile() {
         //update name in firebase
         await updateProfile(auth.currentUser, {
           displayName: name,
-        });
+        })
 
         //update firestore
-        const userRef = doc(db, "users", auth.currentUser.uid);
+        const userRef = doc(db, "users", auth.currentUser.uid)
         await updateDoc(userRef, {
           name,
-        });
+        })
       }
     } catch (error) {
-      toast.error("Could not update profile details");
-      console.error(error);
+      toast.error("Could not update profile details")
+      console.error(error)
     }
-  };
+  }
 
   const handleOnChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,
-    }));
-  };
+    }))
+  }
 
   const onChangeDetailsClick = () => {
-    changeDetails && handleSubmit();
+    changeDetails && handleSubmit()
 
-    setChangeDetails((prevState) => !prevState);
-  };
+    setChangeDetails((prevState) => !prevState)
+  }
 
   return (
     <div className="profile">
@@ -103,5 +103,5 @@ export default function Profile() {
         </Link>
       </main>
     </div>
-  );
+  )
 }

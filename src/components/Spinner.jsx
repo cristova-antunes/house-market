@@ -3,5 +3,5 @@ export default function Spinner() {
     <div className="loadingSpinnerContainer">
       <div className="loadingSpinner"></div>
     </div>
-  );
+  )
 }

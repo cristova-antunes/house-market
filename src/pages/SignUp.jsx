@@ -1,67 +1,67 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 
 import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
-} from "firebase/auth";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../firebase.config";
+} from "firebase/auth"
+import { doc, setDoc, serverTimestamp } from "firebase/firestore"
+import { db } from "../firebase.config"
 
-import OAuth from "../components/oAuth";
-import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
-import visibilityIcon from "../assets/svg/visibilityIcon.svg";
-import { toast } from "react-toastify";
+import OAuth from "../components/oAuth"
+import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg"
+import visibilityIcon from "../assets/svg/visibilityIcon.svg"
+import { toast } from "react-toastify"
 
 export default function SignUp() {
-  const [showPasssword, setShowPasssword] = useState(false);
+  const [showPasssword, setShowPasssword] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-  });
+  })
 
-  const { name, email, password } = formData;
-  const navigate = useNavigate();
+  const { name, email, password } = formData
+  const navigate = useNavigate()
 
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,
-    }));
-  };
+    }))
+  }
 
   const onSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      const auth = getAuth();
+      const auth = getAuth()
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
-      );
+      )
 
-      const user = userCredential.user;
+      const user = userCredential.user
 
       updateProfile(auth.currentUser, {
         displayName: name,
-      });
+      })
 
       //Valor imutável
-      const formDataCopy = { ...formData };
-      delete formDataCopy.password;
-      formDataCopy.timestamp = serverTimestamp();
+      const formDataCopy = { ...formData }
+      delete formDataCopy.password
+      formDataCopy.timestamp = serverTimestamp()
 
-      await setDoc(doc(db, "users", user.uid), formDataCopy);
+      await setDoc(doc(db, "users", user.uid), formDataCopy)
 
-      navigate("/");
+      navigate("/")
     } catch (error) {
-      toast.error("Something went wrong. Please try later!");
-      console.error(error);
+      toast.error("Something went wrong. Please try later!")
+      console.error(error)
     }
-  };
+  }
 
   return (
     <>
@@ -125,5 +125,5 @@ export default function SignUp() {
         </Link>
       </div>
     </>
-  );
+  )
 }

@@ -1,33 +1,33 @@
-import { useEffect, useState, useRef } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState, useRef } from "react"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 
 export const useAuthStatus = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [checkingStatus, setCheckingStatus] = useState(true);
-  const isMounted = useRef(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [checkingStatus, setCheckingStatus] = useState(true)
+  const isMounted = useRef(true)
 
   useEffect(() => {
     if (isMounted) {
-      const auth = getAuth();
+      const auth = getAuth()
 
       onAuthStateChanged(auth, (user) => {
-        user && setIsLoggedIn(true);
+        user && setIsLoggedIn(true)
 
-        setCheckingStatus(false);
-      });
+        setCheckingStatus(false)
+      })
     }
 
     //Return em use effect == onUnmount
     return () => {
-      isMounted.current = false;
-    };
-  }, [isMounted]);
+      isMounted.current = false
+    }
+  }, [isMounted])
 
   return {
     isLoggedIn,
     checkingStatus,
-  };
-};
+  }
+}
 
 // Protected routes in v6
 // https://stackoverflow.com/questions/65505665/protected-route-with-firebase

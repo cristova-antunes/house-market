@@ -1,50 +1,50 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth"
 
-import OAuth from "../components/oAuth";
-import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg";
-import visibilityIcon from "../assets/svg/visibilityIcon.svg";
-import { toast } from "react-toastify";
+import OAuth from "../components/oAuth"
+import { ReactComponent as ArrowRightIcon } from "../assets/svg/keyboardArrowRightIcon.svg"
+import visibilityIcon from "../assets/svg/visibilityIcon.svg"
+import { toast } from "react-toastify"
 
 export default function SignIn() {
-  const [showPasssword, setShowPasssword] = useState(false);
+  const [showPasssword, setShowPasssword] = useState(false)
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-  });
+  })
 
-  const { email, password } = formData;
-  const navigate = useNavigate();
+  const { email, password } = formData
+  const navigate = useNavigate()
 
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.id]: e.target.value,
-    }));
-  };
+    }))
+  }
 
   const onSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      const auth = getAuth();
+      const auth = getAuth()
 
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
         password
-      );
+      )
 
       if (userCredential.user) {
-        navigate("/");
+        navigate("/")
       }
     } catch (error) {
-      toast.error("Bad user credencials");
-      console.error(error);
+      toast.error("Bad user credencials")
+      console.error(error)
     }
-  };
+  }
 
   return (
     <>
@@ -99,5 +99,5 @@ export default function SignIn() {
         </Link>
       </div>
     </>
-  );
+  )
 }

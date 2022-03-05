@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
-import rentCategoryImg from "../assets/jpg/rentCategoryImage.jpg";
-import saleCategoryImg from "../assets/jpg/sellCategoryImage.jpg";
+import Slider from "../components/Slider"
+
+import rentCategoryImg from "../assets/jpg/rentCategoryImage.jpg"
+import saleCategoryImg from "../assets/jpg/sellCategoryImage.jpg"
 
 export default function Explore() {
   return (
@@ -11,7 +13,7 @@ export default function Explore() {
       </header>
 
       <main>
-        {/* SLIDER */}
+        <Slider />
 
         <p className="exploreCategoryHeader">Categories</p>
 
@@ -37,5 +39,5 @@ export default function Explore() {
         </div>
       </main>
     </div>
-  );
+  )
 }

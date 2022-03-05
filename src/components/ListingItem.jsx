@@ -1,16 +1,16 @@
-import { Link } from "react-router-dom";
-import { ReactComponent as DeleteIcon } from "../assets/svg/deleteIcon.svg";
-import bedIcon from "../assets/svg/bedIcon.svg";
-import bathIcon from "../assets/svg/bathtubIcon.svg";
+import { Link } from "react-router-dom"
+import { ReactComponent as DeleteIcon } from "../assets/svg/deleteIcon.svg"
+import bedIcon from "../assets/svg/bedIcon.svg"
+import bathIcon from "../assets/svg/bathtubIcon.svg"
 
 export default function ListingItem({ listing, id, onDelete }) {
   const formatPrice = (value) =>
-    value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
   return (
     <li className="categoryListing">
       <Link
-        to={`category/${listing.type}/${id}`}
+        to={`/category/${listing.type}/${id}`}
         className="categoryListingLink"
       >
         <img
@@ -56,5 +56,5 @@ export default function ListingItem({ listing, id, onDelete }) {
         />
       )}
     </li>
-  );
+  )
 }
