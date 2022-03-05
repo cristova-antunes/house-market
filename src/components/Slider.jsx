@@ -12,7 +12,7 @@ import Spinner from "./Spinner"
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y])
 
 export default function Slider() {
-  const [listings, setListing] = useState(null)
+  const [listings, setListings] = useState(null)
   const [loading, setLoading] = useState(true)
 
   const navigate = useNavigate()
@@ -32,7 +32,7 @@ export default function Slider() {
         })
       })
 
-      setListing(listings)
+      setListings(listings)
       setLoading(false)
     }
 
