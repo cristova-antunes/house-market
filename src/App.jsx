@@ -8,6 +8,7 @@ import ForgotPassword from "./pages/ForgotPassword"
 import Offers from "./pages/Offers"
 import Profile from "./pages/Profile"
 import CreateListing from "./pages/CreateListing"
+import EditListing from "./pages/EditListing"
 import Contact from "./pages/Contact"
 import SignIn from "./pages/SignIn"
 import SignUp from "./pages/SignUp"
@@ -30,6 +31,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
           </Route>
           <Route path="/create-listing" element={<CreateListing />} />
+          <Route path="/edit-listing/:listingId" element={<EditListing />} />
           <Route
             path="/category/:categoryName/:listingId"
             element={<ListingDetail />}

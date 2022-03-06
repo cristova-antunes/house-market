@@ -18,8 +18,10 @@ import ListingItem from "../components/ListingItem"
 export default function Offers() {
   const [listings, setListings] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [lastFetchListing, setLastFetchListing] = useState(null)
 
   const params = useParams()
+
   useEffect(() => {
     const fetchListings = async () => {
       try {
@@ -36,6 +38,9 @@ export default function Offers() {
 
         //Execute query
         const querySnap = await getDocs(q)
+
+        const lastVisible = querySnap.docs[querySnap.docs.length - 1]
+        setLastFetchListing(lastVisible)
 
         let listings = []
 
@@ -57,6 +62,44 @@ export default function Offers() {
     fetchListings()
   }, [])
 
+  //Pagination / load more
+  const onFetchMoreListings = async () => {
+    try {
+      //Fetch reference
+      const listingRef = collection(db, "listings")
+
+      //Create query
+      const q = query(
+        listingRef,
+        where("offer", "==", true),
+        orderBy("timestamp", "desc"),
+        startAfter(lastFetchListing),
+        limit(10)
+      )
+
+      //Execute query
+      const querySnap = await getDocs(q)
+
+      const lastVisible = querySnap.docs[querySnap.docs.length - 1]
+      setLastFetchListing(lastVisible)
+
+      let listings = []
+
+      querySnap.forEach((doc) => {
+        return listings.push({
+          id: doc.id,
+          data: doc.data(),
+        })
+      })
+
+      setListings((prevState) => [...prevState, ...listings])
+      setLoading(false)
+    } catch (error) {
+      console.error(error)
+      toast.error("Could not fetch listings")
+    }
+  }
+
   return (
     <div className="category">
       <header>
@@ -66,17 +109,26 @@ export default function Offers() {
       {loading ? (
         <Spinner />
       ) : listings && listings.length > 0 ? (
-        <main>
-          <ul className="categoryListings">
-            {listings.map((listing) => (
-              <ListingItem
-                key={listing.id}
-                listing={listing.data}
-                id={listing.id}
-              />
-            ))}
-          </ul>
-        </main>
+        <>
+          <main>
+            <ul className="categoryListings">
+              {listings.map((listing) => (
+                <ListingItem
+                  key={listing.id}
+                  listing={listing.data}
+                  id={listing.id}
+                />
+              ))}
+            </ul>
+          </main>
+          <br />
+          <br />
+          {lastFetchListing && (
+            <p className="loadMore" onClick={onFetchMoreListings}>
+              Load more
+            </p>
+          )}
+        </>
       ) : (
         <p>There are no current offers</p>
       )}

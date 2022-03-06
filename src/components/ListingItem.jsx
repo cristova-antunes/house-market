@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom"
 import { ReactComponent as DeleteIcon } from "../assets/svg/deleteIcon.svg"
+import { ReactComponent as EditIcon } from "../assets/svg/editIcon.svg"
 import bedIcon from "../assets/svg/bedIcon.svg"
 import bathIcon from "../assets/svg/bathtubIcon.svg"
 
-export default function ListingItem({ listing, id, onDelete }) {
+export default function ListingItem({ listing, id, onEdit, onDelete }) {
   const formatPrice = (value) =>
     value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 
@@ -55,6 +56,8 @@ export default function ListingItem({ listing, id, onDelete }) {
           onClick={() => onDelete(listing.id, listing.name)}
         />
       )}
+
+      {onEdit && <EditIcon className="editIcon" onClick={() => onEdit(id)} />}
     </li>
   )
 }

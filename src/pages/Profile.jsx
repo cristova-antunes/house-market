@@ -114,6 +114,8 @@ export default function Profile() {
     }
   }
 
+  const onEdit = (listingId) => navigate(`/edit-listing/${listingId}`)
+
   if (loading) {
     return <Spinner />
   }
@@ -172,6 +174,7 @@ export default function Profile() {
                   key={listing.id}
                   listing={listing.data}
                   id={listing.id}
+                  onEdit={() => onEdit(listing.id)}
                   onDelete={() => onDelete(listing.id)}
                 />
               ))}
